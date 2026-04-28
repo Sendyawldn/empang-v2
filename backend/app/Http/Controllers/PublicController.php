@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\Lomba;
 use App\Models\Booking;
 use App\Models\Setting;
+use Illuminate\Support\Carbon;
 
 class PublicController extends Controller
 {
     // 1. Mengambil Jadwal Lomba Aktif + Live Slot + Info Empang
     public function getHomeData()
 {
+    $todayJakarta = Carbon::now('Asia/Jakarta')->toDateString();
+
     return response()->json([
         'settings' => \App\Models\Setting::first(),
         'lombas' => \App\Models\Lomba::where('is_active', true)
-            ->whereDate('tanggal_lomba', '>=', now())
+            ->whereDate('tanggal_lomba', '>=', $todayJakarta)
+            ->orderBy('tanggal_lomba')
             ->get()
             ->map(function ($l) {
                 $terisi = $l->bookings()->whereIn('status', ['pending', 'verified'])->count();

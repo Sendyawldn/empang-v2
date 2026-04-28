@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
                 'password' => \Illuminate\Support\Facades\Hash::make('password'),
             ]
         );
+
     }
 }

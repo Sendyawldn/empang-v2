@@ -7,7 +7,10 @@ export default function Navbar() {
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark" || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+    if (
+      savedTheme === "dark" ||
+      (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
       setIsDark(true);
       document.documentElement.classList.add("dark");
     } else {
@@ -32,26 +35,36 @@ export default function Navbar() {
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/combro-fishing-logo.png" alt="Combro Fishing Logo" className="h-10 w-auto" />
+          <img
+            src="/combro-fishing-logo.png"
+            alt="Combro Fishing Logo"
+            className="h-10 w-auto"
+          />
           <span className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter uppercase transition-colors duration-300">
             COMBRO FISHING
           </span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-8 font-bold text-[15px] text-slate-600 dark:text-slate-300">
-          <Link to="/" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          <Link
+            to="/"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
             Beranda
           </Link>
-          <Link to="/status" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          {/* <Link to="/status" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             Cek Status
-          </Link>
-          <a href="/#tentang-kami" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+          </Link> */}
+          <a
+            href="/#tentang-kami"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
             Tentang Kami
           </a>
         </div>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <button 
+          <button
             onClick={toggleTheme}
             className="w-10 h-10 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
