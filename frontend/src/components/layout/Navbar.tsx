@@ -55,6 +55,12 @@ export default function Navbar() {
           {/* <Link to="/status" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             Cek Status
           </Link> */}
+          <Link
+            to="/jadwal"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            Jadwal Lomba
+          </Link>
           <a
             href="/#tentang-kami"
             className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"

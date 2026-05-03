@@ -6,6 +6,7 @@ import AdminSettingsPage from "./pages/admin/AdminSettingsPage";
 import HomePage from "./pages/HomePage";
 import BookingPage from "./pages/BookingPage";
 import StatusPage from "./pages/StatusPage";
+import JadwalPage from "./pages/JadwalPage";
 
 // Halaman Admin (Perhatikan tambahan /admin di jalurnya)
 import AdminLoginPage from "./pages/admin/AdminLoginPage";
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/booking" element={<BookingPage />} />
         <Route path="/status" element={<StatusPage />} />
+        <Route path="/jadwal" element={<JadwalPage />} />
 
         {/* Rute Admin */}
         <Route path="/empang-rahasia" element={<AdminLoginPage />} />

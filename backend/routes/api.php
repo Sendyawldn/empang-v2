@@ -16,6 +16,7 @@ Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,
 // --- AREA PUBLIK (Bebas Akses Tanpa Login) ---
 Route::get('/public/home', [PublicController::class, 'getHomeData']);
 Route::post('/public/booking', [PublicController::class, 'storeBooking']);
+Route::get('/public/jadwal-peserta', [PublicController::class, 'getJadwalPeserta']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);

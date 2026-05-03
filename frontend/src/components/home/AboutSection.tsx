@@ -5,16 +5,11 @@ import { motion } from "framer-motion";
 const stats = [
   {
     icon: <Anchor className="text-white" size={28} />,
-    value: "50+",
-    label: "Lapak Premium",
+    value: "34",
+    label: "Lapak",
     gradient: "from-blue-500 to-blue-600"
   },
-  {
-    icon: <Users className="text-white" size={28} />,
-    value: "2.5K+",
-    label: "Angler Aktif",
-    gradient: "from-cyan-400 to-cyan-500"
-  },
+
   {
     icon: <Award className="text-white" size={28} />,
     value: "100+",
@@ -52,7 +47,7 @@ export default function AboutSection() {
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
         {/* Kiri: Teks Tentang Kami */}
-        <motion.div 
+        <motion.div
           className="flex-1 space-y-8"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -77,13 +72,13 @@ export default function AboutSection() {
             <p>
               Visi kami sederhana: Memberikan kenyamanan maksimal bagi para
               *angler*. Dari saat Anda memilih lapak di rumah, hingga momen Anda
-              mengangkat trofi juara di kolam kami.
+              juara di kolam kami.
             </p>
           </div>
         </motion.div>
 
         {/* Kanan: Grid Statistik */}
-        <motion.div 
+        <motion.div
           className="flex-1 w-full grid grid-cols-2 gap-6"
           variants={containerVariants}
           initial="hidden"

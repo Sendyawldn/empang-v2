@@ -6,15 +6,15 @@ const reviews = [
   {
     name: "Pak Haji Mulyono",
     role: "Angler Senior",
-    text: "Dulu harus bertanya dulu untuk liat lapak yang kosong, sekarang enakk bisa liat dari rumah lewat HP. Mantap!",
+    text: "Dulu harus bertanya dulu untuk liat lapak yang kosong, sekarang enakk bisa liat dari rumah lewat HP Mantap!",
     initial: "M"
   },
-  {
-    name: "Andri Setiawan",
-    role: "Juara Galatama 2025",
-    text: "Sistem laporannya transparan banget. Kita bisa lihat siapa saja saingan kita di lomba nanti lewat web ini.",
-    initial: "A"
-  },
+  // {
+  //   name: "Andri Setiawan",
+  //   role: "Juara Galatama 2025",
+  //   text: "Sistem laporannya transparan banget. Kita bisa lihat siapa saja saingan kita di lomba nanti lewat web ini.",
+  //   initial: "A"
+  // },
 ];
 
 const faqs = [
@@ -22,13 +22,13 @@ const faqs = [
     q: "Bagaimana cara membatalkan booking?",
     a: "Pembatalan dapat dilakukan maksimal H-1 lomba melalui fitur Cek Status atau hubungi WhatsApp Admin.",
   },
-  {
-    q: "Apakah bisa bayar di tempat (COD)?",
-    a: "Untuk mengamankan lapak, pembayaran wajib dilakukan via transfer bank atau E-Wallet dalam 1x24 jam.",
-  },
+  // {
+  //   q: "Apakah bisa bayar di tempat (COD)?",
+  //   a: "Untuk mengamankan lapak, pembayaran wajib dilakukan via transfer bank atau E-Wallet dalam 1x24 jam.",
+  // },
   {
     q: "Peralatan mancing disediakan?",
-    a: "Kami menyediakan persewaan joran dan umpan standar di lokasi (Kantin Combro).",
+    a: "Kami menyediakan persewaan joran di lokasi (Kantin Combro).",
   },
 ];
 

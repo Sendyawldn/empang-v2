@@ -46,14 +46,31 @@ class SettingController extends Controller
             ]);
 
             $setting = Setting::first();
-            $existingImages = is_array($setting->potret_kami) ? $setting->potret_kami : [];
+            
+            // Pastikan data yang ada bentuknya array
+            $currentImages = $setting->potret_kami;
+            if (is_string($currentImages)) {
+                $currentImages = json_decode($currentImages, true);
+            }
+            $existingImages = is_array($currentImages) ? $currentImages : [];
 
             if ($request->hasFile('potret_kami_files')) {
-                foreach ($request->file('potret_kami_files') as $file) {
+                $files = $request->file('potret_kami_files');
+                // Kadang dari frontend bukan array kalau cuma 1 file, kita pastikan array
+                if (!is_array($files)) {
+                    $files = [$files];
+                }
+
+                foreach ($files as $file) {
                     $path = $file->store('potret', 'public');
                     $existingImages[] = '/storage/' . $path;
                 }
-                $setting->update(['potret_kami' => $existingImages]);
+                
+                // Hapus duplikat kalau ada
+                $existingImages = array_values(array_unique($existingImages));
+                
+                $setting->potret_kami = $existingImages;
+                $setting->save();
             }
 
             return response()->json(['message' => 'Foto berhasil diunggah!', 'data' => $setting]);
@@ -70,13 +87,19 @@ class SettingController extends Controller
             ]);
 
             $setting = Setting::first();
-            $existingImages = is_array($setting->potret_kami) ? $setting->potret_kami : [];
+            
+            $currentImages = $setting->potret_kami;
+            if (is_string($currentImages)) {
+                $currentImages = json_decode($currentImages, true);
+            }
+            $existingImages = is_array($currentImages) ? $currentImages : [];
             
             $newImages = array_values(array_filter($existingImages, function($img) use ($request) {
                 return $img !== $request->image_url;
             }));
 
-            $setting->update(['potret_kami' => $newImages]);
+            $setting->potret_kami = $newImages;
+            $setting->save();
             
             return response()->json(['message' => 'Foto berhasil dihapus!', 'data' => $setting]);
         } catch (\Exception $e) {

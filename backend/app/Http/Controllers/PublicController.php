@@ -61,4 +61,44 @@ class PublicController extends Controller
             'kode_booking' => $kode_booking
         ]);
     }
+
+    // 3. Mengambil Semua Jadwal + Pesertanya (Untuk Halaman Jadwal)
+    public function getJadwalPeserta()
+    {
+        $todayJakarta = Carbon::now('Asia/Jakarta')->toDateString();
+
+        $lombas = \App\Models\Lomba::with(['bookings', 'rekaps'])
+            ->where('is_active', true)
+            ->whereDate('tanggal_lomba', '>=', $todayJakarta)
+            ->orderBy('tanggal_lomba', 'asc')
+            ->get();
+
+        $data = $lombas->map(function ($l) {
+            $pesertaNames = [];
+            
+            // Masukkan dari rekap dulu
+            foreach ($l->rekaps as $r) {
+                $pesertaNames[] = $r->nama_peserta;
+            }
+            
+            // Masukkan dari booking yang belum ada di rekap
+            foreach ($l->bookings as $b) {
+                if (in_array($b->status, ['pending', 'verified']) && !in_array($b->nama_peserta, $pesertaNames)) {
+                    $pesertaNames[] = $b->nama_peserta;
+                }
+            }
+
+            return [
+                'id' => $l->id,
+                'nama_lomba' => $l->nama_lomba,
+                'tanggal_lomba' => $l->tanggal_lomba,
+                'harga_tiket' => $l->harga_tiket,
+                'kuota' => $l->kuota,
+                'terisi' => count($pesertaNames),
+                'peserta' => $pesertaNames
+            ];
+        });
+
+        return response()->json($data);
+    }
 }

@@ -59,9 +59,11 @@ export default function HeroSection() {
             BOOKING SEKARANG
             <ArrowRight size={24} strokeWidth={3} className="group-hover:translate-x-1 transition-transform" />
           </a>
-          <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg hover:opacity-90 transition-all shadow-lg w-full sm:w-auto">
-            LIHAT JADWAL
-          </button>
+          <a href="/jadwal">
+            <button className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg hover:opacity-90 transition-all shadow-lg w-full sm:w-auto">
+              LIHAT JADWAL
+            </button>
+          </a>
         </motion.div>
       </motion.div>
 

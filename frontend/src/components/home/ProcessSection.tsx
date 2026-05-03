@@ -15,7 +15,7 @@ const steps = [
   {
     number: "03",
     title: "BAYAR & MANCING",
-    desc: "Selesaikan pembayaran, dan kamu tinggal datang bawa joran di hari H!",
+    desc: "Datang Bayar dan Nikmatin keseruannya!",
   },
 ];
 
@@ -38,7 +38,7 @@ export default function ProcessSection() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export default function ProcessSection() {
           </p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="grid md:grid-cols-3 gap-12 lg:gap-20"
           variants={containerVariants}
           initial="hidden"
