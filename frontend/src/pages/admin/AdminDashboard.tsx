@@ -8,6 +8,7 @@ import {
   Clock,
   CheckCircle,
   Trash2,
+  UserPlus,
 } from "lucide-react";
 import AdminLayout from "../../components/admin/AdminLayout";
 
@@ -17,6 +18,11 @@ export default function AdminDashboard() {
   const [activeData, setActiveData] = useState<any>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  
+  const [offlineName, setOfflineName] = useState("");
+  const [offlineWa, setOfflineWa] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("admin_token");
 
@@ -100,6 +106,56 @@ export default function AdminDashboard() {
     } catch (err) {
       console.error(err);
       alert("Gagal menghapus peserta.");
+    }
+  };
+
+  const handleVerifyBooking = async (bookingId: number, nama: string) => {
+    const isConfirm = window.confirm(
+      `Verifikasi / ACC pendaftaran atas nama ${nama}?`,
+    );
+
+    if (!isConfirm) return;
+
+    try {
+      await axios.put(`/api/admin/bookings/${bookingId}/verify`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Refresh data
+      fetchLombaDetail(selectedLombaId);
+      alert("Peserta berhasil di-ACC!");
+    } catch (err) {
+      console.error(err);
+      alert("Gagal memverifikasi peserta.");
+    }
+  };
+
+  const handleAddOfflineBooking = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!offlineName.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      await axios.post(
+        "/api/admin/bookings",
+        {
+          lomba_id: selectedLombaId,
+          nama_peserta: offlineName,
+          no_wa: offlineWa || "-",
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Refresh data
+      setOfflineName("");
+      setOfflineWa("");
+      fetchLombaDetail(selectedLombaId);
+      alert("Pendaftar offline berhasil ditambahkan!");
+    } catch (err) {
+      console.error(err);
+      alert("Gagal menambahkan pendaftar offline.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -195,6 +251,37 @@ export default function AdminDashboard() {
               </div>
             </div>
 
+            {/* FORM TAMBAH OFFLINE */}
+            <div className="bg-white p-6 rounded-[32px] border border-slate-200 shadow-sm mb-8">
+              <h2 className="font-black text-slate-800 uppercase tracking-tight flex items-center gap-2 mb-4">
+                <UserPlus size={20} className="text-[#ff4d4d]" /> Tambah Pendaftar Offline
+              </h2>
+              <form onSubmit={handleAddOfflineBooking} className="flex flex-col md:flex-row gap-4">
+                <input
+                  type="text"
+                  placeholder="Nama Peserta"
+                  value={offlineName}
+                  onChange={(e) => setOfflineName(e.target.value)}
+                  required
+                  className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:ring-2 focus:ring-red-100"
+                />
+                <input
+                  type="text"
+                  placeholder="No HP (Opsional)"
+                  value={offlineWa}
+                  onChange={(e) => setOfflineWa(e.target.value)}
+                  className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-700 outline-none focus:ring-2 focus:ring-red-100"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting || sisaLapak <= 0}
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-black px-6 py-3 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                >
+                  {isSubmitting ? "Menyimpan..." : "Tambah Data"}
+                </button>
+              </form>
+            </div>
+
             {/* 3. TABEL DATA PENDAFTAR WEB */}
             <div className="bg-white rounded-[32px] shadow-sm border border-slate-200 overflow-hidden">
               <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -221,10 +308,16 @@ export default function AdminDashboard() {
                   <thead className="bg-slate-50 border-b border-slate-100">
                     <tr>
                       <th className="p-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        Kode Booking
+                      </th>
+                      <th className="p-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         Nama Peserta
                       </th>
+                      <th className="p-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        No. HP (WA)
+                      </th>
                       <th className="p-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">
-                        Aksi
+                        Status & Aksi
                       </th>
                       <th className="p-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">
                         Waktu Daftar
@@ -235,7 +328,7 @@ export default function AdminDashboard() {
                     {filteredBookings.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={3}
+                          colSpan={5}
                           className="p-10 text-center font-bold text-slate-400"
                         >
                           Belum ada data antrean.
@@ -247,19 +340,42 @@ export default function AdminDashboard() {
                           key={b.id}
                           className="hover:bg-slate-50/50 transition-colors group"
                         >
+                          <td className="p-4 font-bold text-blue-600">
+                            CMBR-{b.id.toString().padStart(3, "0")}
+                          </td>
                           <td className="p-4 font-bold text-slate-800">
                             {b.nama_peserta}
                           </td>
+                          <td className="p-4 text-slate-600 font-medium">
+                            {b.no_wa ? b.no_wa : "-"}
+                          </td>
                           <td className="p-4 text-center">
-                            <button
-                              onClick={() =>
-                                handleDeleteBooking(b.id, b.nama_peserta)
-                              }
-                              className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                              title="Hapus Peserta"
-                            >
-                              <Trash2 size={18} />
-                            </button>
+                            <div className="flex items-center justify-center gap-2">
+                              {b.status === "pending" ? (
+                                <button
+                                  onClick={() => handleVerifyBooking(b.id, b.nama_peserta)}
+                                  className="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-lg hover:bg-yellow-200 transition-colors flex items-center gap-1"
+                                  title="ACC Pendaftaran"
+                                >
+                                  <Clock size={14} />
+                                  ACC
+                                </button>
+                              ) : (
+                                <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-lg flex items-center gap-1">
+                                  <CheckCircle size={14} />
+                                  Verified
+                                </span>
+                              )}
+                              <button
+                                onClick={() =>
+                                  handleDeleteBooking(b.id, b.nama_peserta)
+                                }
+                                className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                title="Hapus Peserta"
+                              >
+                                <Trash2 size={18} />
+                              </button>
+                            </div>
                           </td>
                           <td className="p-4 text-right text-xs text-slate-400 font-bold">
                             {new Date(b.created_at).toLocaleString("id-ID")}
