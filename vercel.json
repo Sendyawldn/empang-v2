@@ -6,6 +6,10 @@
             "use": "vercel-php@0.7.2"
         },
         {
+            "src": "backend/public/test.php",
+            "use": "vercel-php@0.7.2"
+        },
+        {
             "src": "frontend/package.json",
             "use": "@vercel/static-build",
             "config": {
@@ -14,6 +18,10 @@
         }
     ],
     "rewrites": [
+        {
+            "source": "/api/testphp",
+            "destination": "/backend/public/test.php"
+        },
         {
             "source": "/api/(.*)",
             "destination": "/backend/public/index.php"
