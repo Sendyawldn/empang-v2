@@ -23,11 +23,12 @@
             "dest": "/backend/public/storage/$1"
         },
         {
-            "handle": "filesystem"
+            "src": "/(.*)\\.(js|css|svg|ico|png|jpg|jpeg|gif|woff|woff2|ttf|eot)$",
+            "dest": "/frontend/dist/$1.$2"
         },
         {
             "src": "/(.*)",
-            "dest": "/index.html"
+            "dest": "/frontend/dist/index.html"
         }
     ]
 }
