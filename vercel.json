@@ -23,8 +23,12 @@
             "destination": "/backend/public/storage/$1"
         },
         {
+            "source": "/(.*)\\.(js|css|svg|ico|png|jpg|jpeg|gif|woff|woff2|ttf|eot|json)$",
+            "destination": "/frontend/$1.$2"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/index.html"
+            "destination": "/frontend/index.html"
         }
     ]
 }
