@@ -3,11 +3,11 @@
     "builds": [
         {
             "src": "backend/public/index.php",
-            "use": "vercel-php@0.7.2"
+            "use": "vercel-php@0.9.0"
         },
         {
             "src": "backend/public/test.php",
-            "use": "vercel-php@0.7.2"
+            "use": "vercel-php@0.9.0"
         },
         {
             "src": "frontend/package.json",
