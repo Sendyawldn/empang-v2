@@ -2,12 +2,8 @@
     "version": 2,
     "builds": [
         {
-            "src": "backend/public/index.php",
-            "use": "vercel-php@0.7.2"
-        },
-        {
-            "src": "backend/public/test.php",
-            "use": "vercel-php@0.7.2"
+            "src": "api/index.php",
+            "use": "vercel-php@0.9.0"
         },
         {
             "src": "frontend/package.json",
@@ -19,12 +15,8 @@
     ],
     "rewrites": [
         {
-            "source": "/api/testphp",
-            "destination": "/backend/public/test.php"
-        },
-        {
             "source": "/api/(.*)",
-            "destination": "/backend/public/index.php"
+            "destination": "/api/index.php"
         },
         {
             "source": "/storage/(.*)",
