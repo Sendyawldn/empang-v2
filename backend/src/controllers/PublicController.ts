@@ -2,6 +2,17 @@ import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 import moment from 'moment-timezone';
 
+const parseSettings = (setting: any) => {
+  if (setting && typeof setting.potret_kami === 'string') {
+    try {
+      setting.potret_kami = JSON.parse(setting.potret_kami);
+    } catch (e) {
+      setting.potret_kami = [];
+    }
+  }
+  return setting;
+};
+
 export const getHomeData = async (req: Request, res: Response): Promise<void> => {
   try {
     const todayJakarta = moment().tz('Asia/Jakarta').format('YYYY-MM-DD');
@@ -42,7 +53,7 @@ export const getHomeData = async (req: Request, res: Response): Promise<void> =>
     });
 
     res.json({
-      settings,
+      settings: parseSettings(settings),
       lombas: formattedLombas
     });
   } catch (error: any) {

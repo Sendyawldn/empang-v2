@@ -1,6 +1,17 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 
+const parseSettings = (setting: any) => {
+  if (setting && typeof setting.potret_kami === 'string') {
+    try {
+      setting.potret_kami = JSON.parse(setting.potret_kami);
+    } catch (e) {
+      setting.potret_kami = [];
+    }
+  }
+  return setting;
+};
+
 export const getSettings = async (req: Request, res: Response): Promise<void> => {
   try {
     let setting = await prisma.settings.findFirst();
@@ -16,7 +27,7 @@ export const getSettings = async (req: Request, res: Response): Promise<void> =>
       });
     }
 
-    res.json(setting);
+    res.json(parseSettings(setting));
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
@@ -48,7 +59,7 @@ export const updateSettings = async (req: Request, res: Response): Promise<void>
       }
     });
 
-    res.json({ message: 'Pengaturan berhasil disimpan!', data: updated });
+    res.json({ message: 'Pengaturan berhasil disimpan!', data: parseSettings(updated) });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -97,7 +108,7 @@ export const uploadGallery = async (req: Request, res: Response): Promise<void> 
     // Note: If potret_kami is JSON in MySQL, you might just pass the array if Prisma expects it.
     // Assuming string for now based on Laravel implementation string checks.
 
-    res.json({ message: 'Foto berhasil diunggah!', data: updated });
+    res.json({ message: 'Foto berhasil diunggah!', data: parseSettings(updated) });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -135,7 +146,7 @@ export const deleteGalleryItem = async (req: Request, res: Response): Promise<vo
       }
     });
 
-    res.json({ message: 'Foto berhasil dihapus!', data: updated });
+    res.json({ message: 'Foto berhasil dihapus!', data: parseSettings(updated) });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }

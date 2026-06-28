@@ -90,7 +90,8 @@ export default function BookingPage() {
       adminWA = "62" + adminWA.substring(1);
     }
 
-    const text = `Halo Admin ${data.settings.nama_pemancingan}, saya mau konfirmasi pendaftaran lomba.\n\nNama: *${formData.nama_peserta}*\nJadwal: *${bookingResult.lomba.nama_lomba} (${bookingResult.lomba.tanggal_lomba})*\nKode Booking: *${bookingResult.kode}*\n\nMohon diverifikasi ya Bang.`;
+    const formattedDate = new Date(bookingResult.lomba.tanggal_lomba).toLocaleDateString("id-ID", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const text = `Halo Admin ${data.settings.nama_pemancingan}, saya mau konfirmasi pendaftaran lomba.\n\nNama: *${formData.nama_peserta}*\nJadwal: *${bookingResult.lomba.nama_lomba} (${formattedDate})*\nKode Booking: *${bookingResult.kode}*\n\nMohon diverifikasi ya Bang.`;
 
     window.open(
       `https://wa.me/${adminWA}?text=${encodeURIComponent(text)}`,

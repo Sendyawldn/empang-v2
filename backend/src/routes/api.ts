@@ -11,7 +11,7 @@ import { getByLomba, storeRekap, updateRekap, deleteRekap } from '../controllers
 import { getReports } from '../controllers/ReportController';
 
 const router = Router();
-const upload = multer({ dest: '/tmp' });
+const upload = multer({ dest: 'storage/potret/' });
 
 router.post('/bookings', storeBooking);
 router.get('/bookings/check/:nama', checkStatus);
@@ -34,7 +34,7 @@ router.get('/admin/reports', getReports);
 
 router.get('/admin/settings', getSettings);
 router.put('/admin/settings', updateSettings);
-router.post('/admin/settings/gallery', upload.array('potret_kami_files'), uploadGallery);
+router.post('/admin/settings/gallery', upload.array('potret_kami_files[]'), uploadGallery);
 router.delete('/admin/settings/gallery', deleteGalleryItem);
 
 router.get('/admin/lombas', getLombas);
