@@ -9,11 +9,11 @@ export default defineConfig({
     allowedHosts: true,
     proxy: {
       '/api': {
-        target: 'http://localhost',
+        target: 'http://localhost:8000',
         changeOrigin: true,
       },
       '/storage': {
-        target: 'http://localhost',
+        target: 'http://localhost:8000',
         changeOrigin: true,
       }
     }
