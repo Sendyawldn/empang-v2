@@ -1,25 +1,30 @@
 {
-    "version": 2,
-    "buildCommand": "cd frontend && npm run build",
-    "outputDirectory": "frontend/dist",
-    "functions": {
-        "api/index.php": {
-            "runtime": "vercel-php@0.9.0",
-            "includeFiles": "backend/**"
-        }
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/src/index.ts",
+      "use": "@vercel/node"
     },
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/api/index.php"
-        },
-        {
-            "source": "/storage/(.*)",
-            "destination": "/api/index.php"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/backend/src/index.ts"
+    },
+    {
+      "source": "/storage/(.*)",
+      "destination": "/backend/src/index.ts"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/frontend/package.json"
+    }
+  ]
 }
