@@ -5,6 +5,11 @@ import apiRoutes from './routes/api';
 
 dotenv.config();
 
+// Fix JSON serialization for BigInt
+(BigInt.prototype as any).toJSON = function () {
+  return this.toString();
+};
+
 const app = express();
 const port = process.env.PORT || 8000;
 
