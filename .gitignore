@@ -3,3 +3,13 @@
 .idea/
 .DS_Store
 *.log
+
+# AI/Agent related files
+.agent-context/
+.agentic-backup/
+.agents/
+.gemini/
+.agent-override.md
+AGENTS.md
+.cursorrules
+.windsurfrules
